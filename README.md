@@ -1,8 +1,10 @@
-# QuaternionCompass
+# Reliable Digital Compass for Arduino
 
-Quaternion compass and calibration tools for the **Arduino Nano 33 BLE Sense
-Rev2 (BMI270 + BMM150)**. The library has no display, Bluetooth, radio, or goggles
-application dependency. Copy this directory into a PlatformIO project's `lib/`
+Quaternion-based compass and calibration tools utilizing on-board IMU for Arduino.
+Tested and implemented on **Arduino Nano 33 BLE Sense Rev2 (BMI270 + BMM150)**,
+some modifications may be needed to get this working on other boards--in principle
+this should be able to work on any Arduino with an IMU.
+Copy this directory into a PlatformIO project's `lib/`
 folder; `library.json` declares the Arduino IMU dependency.
 
 ```cpp
