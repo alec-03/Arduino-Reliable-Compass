@@ -1,0 +1,8 @@
+{
+  "name": "QuaternionCompass",
+  "version": "0.1.0",
+  "description": "Quaternion heading fusion and calibration for the Arduino Nano 33 BLE Sense Rev2",
+  "frameworks": "arduino",
+  "platforms": "nordicnrf52",
+  "dependencies": {"arduino-libraries/Arduino_BMI270_BMM150": "*"}
+}
