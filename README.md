@@ -1,11 +1,14 @@
 # Reliable Digital Compass for Arduino
 
-Quaternion-based compass and calibration tools utilizing on-board IMU for Arduino.
-Tested and implemented on **Arduino Nano 33 BLE Sense Rev2 (BMI270 + BMM150)**,
-some modifications may be needed to get this working on other boards--in principle
-this should be able to work on any Arduino with an IMU.
-Copy this directory into a PlatformIO project's `lib/`
-folder; `library.json` declares the Arduino IMU dependency.
+Quaternion-based heading fusion and calibration tools for Arduino projects.
+The current hardware adapter targets the **Arduino Nano 33 BLE Sense Rev2**
+(BMI270 + BMM150), but the fusion algorithm itself is portable to other boards
+with an accelerometer, gyroscope, and magnetometer. Supporting another board
+requires an adapter for its sensor API and coordinate frame.
+
+Add this directory as a local library using your preferred Arduino build system.
+`library.json` describes the hardware dependency for tools that support the
+PlatformIO library format, but PlatformIO is not required.
 
 ```cpp
 #include <Arduino_BMI270_BMM150.h>
@@ -61,12 +64,13 @@ adapter/change to these conventions; they are not automatically detected.
 
 ## Calibration
 
-1. Run `examples/Calibration/Calibration.ino` on the board, or build this parent
-   project's `calibrate` firmware environment. Both use
+1. Upload `examples/Calibration/Calibration.ino` to the board. It writes raw
+   samples through the board's serial interface using
    `writeCalibrationSamples(Print&)` from `CompassCalibration.h`.
 2. Install Python dependencies in a virtual environment:
    `python -m pip install -r tools/requirements.txt`.
-3. Run `python tools/calibrate.py --collect --fit --port /dev/ttyACM0 --baud 500000`.
+3. Run `python tools/calibrate.py --collect --fit --port YOUR_SERIAL_PORT --baud YOUR_BAUD_RATE`.
+   Choose the port and baud rate reported by your IDE or operating system.
    Keep still for the first 30 seconds, then slowly rotate through all orientations.
 4. Paste the emitted `Calibration` assignments into your application before
    `setCalibration()`. The fit uses a sphere center/radius for magnetometer and
@@ -75,18 +79,17 @@ adapter/change to these conventions; they are not automatically detected.
 
 Use `--no-plot` for headless operation. Saved input is supported with
 `--fit --input cal_data.txt`; saved gyro rows must represent stationary samples.
-The parent project's `calibrate.py` remains a forwarding entry point. Its board
-profiles live in `src/model/services/sensors/boardCalibration.h`, outside this
-library, with standalone firmware using prototype B's profile.
 
 ## Verification and release status
 
-From the parent repository, run `python3 test/sensors/run.py` and repeat with
-`PROTOTYPE_ROLE=1`. These exercise the library using simulated sensor timing,
-startup, tilt, field rejection, drift, fast turns, calibration frames, and reset.
-Calibration checks: `python3 lib/QuaternionCompass/tests/calibration_test.py`.
-Firmware builds: `pio run -e nano33ble -e prototype_a -e prototype_b -e calibrate`.
+Run `python3 tests/calibration_test.py` to check the calibration fit and the
+generated C++ assignments. Hardware behavior still needs a physical-board check;
+simulated tests cannot establish real-world calibration accuracy.
 
-This is a local extraction, not a published release. A distribution license has
-not been selected. Hardware behavior still needs a physical-board check after
-refactoring; simulated tests cannot establish real-world calibration accuracy.
+## License
+
+Copyright (C) 2026 Alec.
+
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
+You may use, modify, and redistribute it under that license's terms. There is
+no warranty.
