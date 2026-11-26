@@ -88,7 +88,7 @@ simulated tests cannot establish real-world calibration accuracy.
 
 ## License
 
-Copyright (C) 2026 Alec.
+Copyright (C) 2026 Alec Henderson.
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE).
 You may use, modify, and redistribute it under that license's terms. There is

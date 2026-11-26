@@ -1,6 +1,8 @@
 {
   "name": "QuaternionCompass",
   "version": "0.1.0",
+  "license": "GPL-3.0-or-later",
+  "copyright": "Copyright (C) 2026 Alec Henderson",
   "description": "Quaternion heading fusion and calibration for the Arduino Nano 33 BLE Sense Rev2",
   "frameworks": "arduino",
   "platforms": "nordicnrf52",
